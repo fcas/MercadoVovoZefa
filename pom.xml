@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>ReceitasVovoZefa</artifactId>
+	<version>1.0</version>
+	<packaging>apk</packaging>
+	<name>MercadoVovoZefa</name>
+
+
+
+
+	<dependencies>
+
+
+
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+
+	</dependencies>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<outputDirectory>target</outputDirectory>
+		<testSourceDirectory>src/test</testSourceDirectory>
+		<testOutputDirectory>target/test-classes</testOutputDirectory>
+		<defaultGoal>install</defaultGoal>
+
+		<pluginManagement>
+			<plugins>
+
+
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>2.5.2</version>
+					<configuration>
+						<format>xml</format>
+						<maxmem>256m</maxmem>
+						<aggregate>true</aggregate>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eluder.coveralls</groupId>
+					<artifactId>coveralls-maven-plugin</artifactId>
+					<version>2.0.1</version>
+					<configuration>
+						<repoToken>QloICX84FmKVcMrTxvRjsJe9SDXMLgPTy</repoToken>
+						<sourceDirectories>
+							<List>src</List>
+							<List>gen</List>
+							<List>test</List>
+						</sourceDirectories>
+					</configuration>
+				</plugin>
+
+
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+
+
+
+
+	</build>
+</project>
