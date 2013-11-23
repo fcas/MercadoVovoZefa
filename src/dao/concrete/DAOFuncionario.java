@@ -7,11 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.interfaces.IDaoFuncionario;
 import models.funcionario.Funcionario;
 import models.funcionario.IFuncionario;
 
-
-public class DAOFuncionario {
+public class DAOFuncionario implements IDaoFuncionario {
 	
 	private  static Connection con;
 	private static Statement comando; 
