@@ -19,8 +19,8 @@ public class DAOMercadoria implements IDaoMercadoria {
 	private void conectar() {
 
 		try {
-			con = ConnectMySql.conexao("jdbc:mysql://localhost/tes", "root",
-					"123456", MySQLDAOFactory.MYSQL);
+			con = ConnectMySql.conexao("jdbc:mysql://localhost/tes", "travis",
+					"", MySQLDAOFactory.MYSQL);
 			comando = con.createStatement();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
