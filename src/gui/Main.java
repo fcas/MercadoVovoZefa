@@ -13,13 +13,22 @@ import models.venda.Venda;
 import exceptions.OpcaoIlegalException;
 import facade.Facade;
 
+@SuppressWarnings("rawtypes")
 public class Main {
 
 	private Facade facade;
 	private Scanner in;
 	private int opcao;
 	private String RG;
-
+	private String CPF;
+	private String data;
+	private IFuncionario funcionario; 
+	private IMercadoria mercadoria;
+	private IVenda venda;
+	private List listFuncionarios;
+	private List listVendas;
+	private List listMercadorias;
+	
 	public Main() {
 		facade = new Facade(0);
 	}
@@ -34,7 +43,7 @@ public class Main {
 
 		System.out.println("Carregando tela Cadastro Funcionario:");
 
-		IFuncionario funcionario = new Funcionario();
+		funcionario = new Funcionario();
 		String buscaRg = null;
 
 		// coleta dados
@@ -134,7 +143,7 @@ public class Main {
 
 	private void ReajusteSalarial() {
 
-		List listFuncionarios = new ArrayList();
+		listFuncionarios = new ArrayList();
 		Funcionario aux;
 
 		listFuncionarios = facade.listarFuncionarios();
@@ -179,7 +188,7 @@ public class Main {
 	private void EditarFuncionario() {
 
 		System.out.println("Carregando tela Editar Funcionario:");
-		IFuncionario funcionario = new Funcionario();
+		funcionario = new Funcionario();
 		String buscaRg, nome = null, rg = null, cpf = null, cargo = null, dataNascimento = null;
 		double salario = -1;
 		boolean editado = false;
@@ -226,7 +235,7 @@ public class Main {
 
 	private void BuscarFuncionario() {
 
-		IFuncionario funcionario = new Funcionario();
+		funcionario = new Funcionario();
 		Funcionario aux;
 		String buscaRg = null;
 		boolean achouFuncionario = false;
@@ -287,7 +296,7 @@ public class Main {
 
 		System.out.println("Carregando tela Remover Funcionario:");
 
-		IFuncionario funcionario = new Funcionario();
+		funcionario = new Funcionario();
 		String buscaRg = null;
 		boolean removido = false;
 
@@ -319,7 +328,7 @@ public class Main {
 
 		System.out.println("Carregando tela Calcular Bonificacao:");
 
-		IFuncionario funcionario = new Funcionario();
+		funcionario = new Funcionario();
 
 		do {
 			// coleta dados
@@ -347,11 +356,12 @@ public class Main {
 
 	}
 
+	@SuppressWarnings("unused")
 	private double CalcularReajuste(String rg) {
 
 		double novoSalario = 0;
 
-		IFuncionario funcionario = new Funcionario();
+		funcionario = new Funcionario();
 
 		funcionario = facade.buscarFuncionario(rg);
 		if (funcionario != null) {
@@ -365,15 +375,15 @@ public class Main {
 
 		System.out.println("Carregando tela Atualizar Salario:");
 
-		IFuncionario funcionario = new Funcionario();
+		funcionario = new Funcionario();
 		double salarioAtual = -1;
 		boolean aumento = false;
 		boolean rgValido = false;
 
 		// coleta dados
 		do {
-			String rg = setRg();
-			String buscaRg = facade.buscarRg(rg);
+			String rg_informado = setRg();
+			String buscaRg = facade.buscarRg(rg_informado);
 
 			if (buscaRg == null || buscaRg.equals("")) {
 				System.out
@@ -474,7 +484,7 @@ public class Main {
 	}
 
 	private String setCPF() {
-		String CPF = null;
+		CPF = null;
 		boolean confirma = false;
 		boolean valido = false;
 		String resposta;
@@ -508,7 +518,7 @@ public class Main {
 	}
 
 	private String setData() {
-		String dataString = null;
+		 data = null;
 		boolean confirma = false;
 		boolean valido = false;
 
@@ -520,9 +530,9 @@ public class Main {
 			valido = false;
 			while (!valido) { // enquanto o CPF nao for valido
 				System.out.println("Informe a data (DD/MM/AAAA)");
-				dataString = in.next();
-				if (dataString.length() == 10) { // se tem o tamanho certo
-					int[] dataInt = quebraData(dataString); // quebra a linha
+				data = in.next();
+				if (data.length() == 10) { // se tem o tamanho certo
+					int[] dataInt = quebraData(data); // quebra a linha
 					if ((dataInt.length == 3) && (checaData(dataInt))) { // se
 																			// esta
 																			// no
@@ -538,12 +548,12 @@ public class Main {
 				}
 			}
 
-			System.out.println("Data de Nascimento = " + dataString
+			System.out.println("Data de Nascimento = " + data
 					+ "\nTem certeza? (s/n)");
 			resposta = in.next();
 			if (resposta.equals("s") || resposta.equals("S")) {
 				confirma = true;
-				return dataString;
+				return data;
 			} else {
 				confirma = false;
 			}
@@ -551,7 +561,7 @@ public class Main {
 
 		in.close();
 
-		return dataString;
+		return data;
 	}
 
 	private int[] quebraData(String dataString) {
@@ -753,7 +763,7 @@ public class Main {
 
 	private void ListarMercadorias() {
 
-		List listMercadorias = new ArrayList();
+		listMercadorias = new ArrayList();
 		Mercadoria aux;
 
 		listMercadorias = facade.listarMercadorias();
@@ -837,7 +847,7 @@ public class Main {
 
 		System.out.println("Carregando tela Cadastro Mercadoria:");
 
-		IMercadoria mercadoria = new Mercadoria();
+		mercadoria = new Mercadoria();
 
 		// coleta dados
 		String nome = mercadoriaNome();
@@ -1103,7 +1113,7 @@ public class Main {
 
 	private void ListarVendas() {
 
-		List listVendas = new ArrayList();
+		listVendas = new ArrayList();
 		Venda aux;
 
 		listVendas = facade.listarVendas();
@@ -1186,7 +1196,7 @@ public class Main {
 	private void EditarVenda() {
 
 		System.out.println("Carregando tela Editar Venda:");
-		IVenda venda = new Venda();
+		venda = new Venda();
 		int buscarId, id, qtdVendas = -1;
 		String dataVenda = null, vendedorRg = null;
 		double subtotal = -1;
@@ -1232,7 +1242,7 @@ public class Main {
 
 		System.out.println("Carregando tela Cadastro Venda:");
 
-		IVenda venda = new Venda();
+		venda = new Venda();
 
 		// coleta dados
 		double subtotal = mercadoriaSubtotal();
@@ -1441,6 +1451,70 @@ public class Main {
 
 	public void setRG(String rG) {
 		RG = rG;
+	}
+
+	public IFuncionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(IFuncionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
+	public String getCPF() {
+		return CPF;
+	}
+
+	public void setCPF(String cPF) {
+		CPF = cPF;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	public IMercadoria getMercadoria() {
+		return mercadoria;
+	}
+
+	public void setMercadoria(IMercadoria mercadoria) {
+		this.mercadoria = mercadoria;
+	}
+
+	public IVenda getVenda() {
+		return venda;
+	}
+
+	public void setVenda(IVenda venda) {
+		this.venda = venda;
+	}
+
+	public List getListFuncionarios() {
+		return listFuncionarios;
+	}
+
+	public void setListFuncionarios(List listFuncionarios) {
+		this.listFuncionarios = listFuncionarios;
+	}
+
+	public List getListVendas() {
+		return listVendas;
+	}
+
+	public void setListVendas(List listVendas) {
+		this.listVendas = listVendas;
+	}
+
+	public List getListMercadorias() {
+		return listMercadorias;
+	}
+
+	public void setListMercadorias(List listMercadorias) {
+		this.listMercadorias = listMercadorias;
 	}
 
 }
