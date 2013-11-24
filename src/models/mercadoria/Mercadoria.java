@@ -67,4 +67,10 @@ public class Mercadoria implements IMercadoria {
 		this.produto = novoProduto;
 	}
 
+	@Override
+	public void setID(int id) {
+		this.ID = id; 
+		
+	}
+
 }

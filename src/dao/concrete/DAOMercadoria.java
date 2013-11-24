@@ -59,7 +59,7 @@ public class DAOMercadoria implements IDaoMercadoria {
 
 	public void editarMercadoria(IMercadoria mercadoria) {
 
-		String update_mercadoria = "UPDATE mercadoria SET " + "',nome='"
+		String update_mercadoria = "UPDATE mercadoria SET " + "nome='"
 				+ mercadoria.getNome() + "',preco=" + mercadoria.getPreco()
 				+ ",cor='" + mercadoria.getCor() + "',tamanho='"
 				+ mercadoria.getTamanho() + "',produto='"
