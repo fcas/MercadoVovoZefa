@@ -20,8 +20,8 @@ before_script:
 - mysql -e 'create database tes;'
 - mysql -e 'use tes;'
 - mysql -e 'use tes;\n CREATE TABLE funcionario (id MEDIUMINT NOT NULL AUTO_INCREMENT, nome VARCHAR(100), rg VARCHAR(100), cpf VARCHAR(100), dataNascimento VARCHAR(100), cargo VARCHAR(100), salario double, PRIMARY KEY (id));\n'
-- mysql -e 'CREATE TABLE mercadoria (id MEDIUMINT NOT NULL AUTO_INCREMENT, nome VARCHAR(100), preco double, cor VARCHAR(100),  tamanho VARCHAR(100), produto VARCHAR(100),  PRIMARY KEY (id));'
-- mysql -e 'CREATE TABLE vendas (id MEDIUMINT NOT NULL AUTO_INCREMENT, subtotal double, vendedorRG VARCHAR(100), dataVenda VARCHAR(100), qtdVendas int, PRIMARY KEY (id));'
+- mysql -e 'use tes;\n CREATE TABLE mercadoria (id MEDIUMINT NOT NULL AUTO_INCREMENT, nome VARCHAR(100), preco double, cor VARCHAR(100),  tamanho VARCHAR(100), produto VARCHAR(100),  PRIMARY KEY (id));\n'
+- mysql -e 'use tes;\n CREATE TABLE vendas (id MEDIUMINT NOT NULL AUTO_INCREMENT, subtotal double, vendedorRG VARCHAR(100), dataVenda VARCHAR(100), qtdVendas int, PRIMARY KEY (id));\n'
 
 after_success:
 - mvn clean cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:cobertura
