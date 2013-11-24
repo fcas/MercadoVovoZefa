@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import models.funcionario.Funcionario;
-import models.mercadoria.Mercadoria;
 import models.venda.Venda;
 
 import org.junit.Before;
