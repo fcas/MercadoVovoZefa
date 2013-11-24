@@ -18,7 +18,6 @@ before_install:
 
 before_script:
 - mysql -e 'create database tes;'
-- mysql -e 'USE tes;\nUPDATE user SET password=PASSWORD(''123456'') WHERE user=''root'';\nFLUSH PRIVILEGES;\n'
 - mysql -e 'use tes;'
 - mysql -e 'use tes;\n CREATE TABLE funcionario (id MEDIUMINT NOT NULL AUTO_INCREMENT, nome VARCHAR(100), rg VARCHAR(100), cpf VARCHAR(100), dataNascimento VARCHAR(100), cargo VARCHAR(100), salario double, PRIMARY KEY (id));\n'
 - mysql -e 'use tes;\n CREATE TABLE mercadoria (id MEDIUMINT NOT NULL AUTO_INCREMENT, nome VARCHAR(100), preco double, cor VARCHAR(100),  tamanho VARCHAR(100), produto VARCHAR(100),  PRIMARY KEY (id));\n'
