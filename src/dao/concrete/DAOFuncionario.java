@@ -32,7 +32,7 @@ public class DAOFuncionario implements IDaoFuncionario {
 	
 	public void criarFuncionario (IFuncionario funcionario) {
 	
-			String insert_funcionario = "INSERT INTO funcionario VALUES ("
+			String insert_funcionario = "INSERT INTO funcionario (nome, rg, cpf, dataNascimento, cargo, salario) VALUES ("
 				+ "'" + funcionario.getNome() + "'," 
 				+ "'" + funcionario.getRg() + "'," 
 				+ "'" + funcionario.getCpf() + "',"
@@ -215,7 +215,7 @@ public class DAOFuncionario implements IDaoFuncionario {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (result.equals("") || result == null){
+		if (result == null || result.equals("")){
 			return false;
 		}else{
 			return true;

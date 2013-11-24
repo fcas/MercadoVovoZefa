@@ -17,8 +17,10 @@ public class Main {
 
 	private Facade facade;
 	private Scanner in;
+	private int opcao;
+	private String RG;
 
-	private Main() {
+	public Main() {
 		facade = new Facade(0);
 	}
 
@@ -75,7 +77,7 @@ public class Main {
 
 	private void MenuFuncionarios() throws OpcaoIlegalException {
 
-		int opcao = -1;
+		opcao = -1;
 		boolean voltar = false;
 
 		in = new Scanner(System.in);
@@ -437,7 +439,7 @@ public class Main {
 	}
 
 	private String setRg() {
-		String RG = null;
+		RG = null;
 		boolean confirma = false;
 		boolean valido = false;
 
@@ -711,7 +713,7 @@ public class Main {
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	private void MenuMercadoria() throws OpcaoIlegalException {
 
-		int opcao = -1;
+		opcao = -1;
 		boolean voltar = false;
 
 		in = new Scanner(System.in);
@@ -1056,7 +1058,7 @@ public class Main {
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	private void MenuVendas() throws OpcaoIlegalException {
 
-		int opcao = -1;
+		opcao = -1;
 		boolean voltar = false;
 
 		in = new Scanner(System.in);
@@ -1332,7 +1334,7 @@ public class Main {
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	private void MenuPrincipal() throws OpcaoIlegalException {
-		int opcao = -1;
+		opcao = -1;
 		boolean sair = false;
 		in = new Scanner(System.in);
 
@@ -1423,6 +1425,22 @@ public class Main {
 
 		local.close();
 
+	}
+
+	public int getOpcao() {
+		return opcao;
+	}
+
+	public void setOpcao(int opcao) {
+		this.opcao = opcao;
+	}
+
+	public String getRG() {
+		return RG;
+	}
+
+	public void setRG(String rG) {
+		RG = rG;
 	}
 
 }

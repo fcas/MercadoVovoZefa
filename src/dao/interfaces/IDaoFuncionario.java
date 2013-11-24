@@ -5,7 +5,7 @@ import models.funcionario.IFuncionario;
 
 public interface IDaoFuncionario {
 
-	public void criarFuncionario(IFuncionario funcionario);
+	public void criarFuncionario(IFuncionario funcionario) ;
 
 	public void editarFuncionario(IFuncionario funcionario);
 
