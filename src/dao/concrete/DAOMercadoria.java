@@ -72,11 +72,48 @@ public class DAOMercadoria implements IDaoMercadoria {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	public int buscaIdPorNome(String nome){
+		ResultSet result = null;
+		int le = -1;
+
+		try {
+			conectar();
+			result = comando
+					.executeQuery("SELECT * FROM mercadoria WHERE nome = '" + nome
+							+ "';");
+			if (result.next()) {
+				le=result.getInt("ID");
+				
+				
+			} else {
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return le;
+	}
 
 	public void apagarMercadoria(int ID) {
 
 		String remove_mercadoria = "DELETE FROM mercadoria WHERE ID = '" + ID
 				+ "';";
+		try {
+			conectar();
+			comando.executeUpdate(remove_mercadoria);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void apagarTudo(){
+		String remove_mercadoria = "DELETE FROM mercadoria"
+				+ ";";
 		try {
 			conectar();
 			comando.executeUpdate(remove_mercadoria);

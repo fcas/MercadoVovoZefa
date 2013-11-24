@@ -146,4 +146,19 @@ public class DaoFuncionarioTest {
 		assertEquals(daoFuncionario.buscarSalario(funcionario), -1, 0);
 	}
 	
+	@Test
+	public void testeListaFuncionarios(){
+		funcionario.setNome("Felipe");
+		funcionario.setRg("111111111");
+		funcionario.setCpf("00000000000");
+		funcionario.setDataNascimento("04/02/1991");
+		funcionario.setCargo("Gerente");
+		funcionario.setSalario(10000);
+		
+		daoFuncionario.criarFuncionario(funcionario);
+		
+		assertEquals(1, daoFuncionario.listarFuncionario().size());
+		daoFuncionario.apagarFuncionario("111111111");
+	}
+	
 }
