@@ -10,9 +10,9 @@
 	<dependencies>
 
 		<dependency>
-  			<groupId>mysql</groupId>
-  			<artifactId>mysql-connector-java</artifactId>
-  			<version>5.1.18</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -44,15 +44,27 @@
 						<format>xml</format>
 						<maxmem>256m</maxmem>
 						<aggregate>true</aggregate>
+						<source>1.7</source>
+						<target>1.7</target>
+						<testSource>1.7</testSource>
+						<testTarget>1.7</testTarget>
 					</configuration>
-<executions>
-                <execution>
-                    <phase>test</phase>
-                    <goals>
-                        <goal>cobertura</goal>
-                    </goals>
-                </execution>
-            </executions>
+					<executions>
+						<execution>
+							<phase>test</phase>
+							<goals>
+								<goal>cobertura</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.12</version>
+					<configuration>
+						<argLine>-XX:-UseSplitVerifier</argLine>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.eluder.coveralls</groupId>
@@ -60,6 +72,10 @@
 					<version>2.0.1</version>
 					<configuration>
 						<repoToken>QloICX84FmKVcMrTxvRjsJe9SDXMLgPTy</repoToken>
+						<source>1.7</source>
+						<target>1.7</target>
+						<testSource>1.7</testSource>
+						<testTarget>1.7</testTarget>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -72,6 +88,8 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
+					<testSource>1.7</testSource>
+					<testTarget>1.7</testTarget>
 				</configuration>
 			</plugin>
 		</plugins>
