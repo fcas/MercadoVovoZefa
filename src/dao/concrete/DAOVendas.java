@@ -79,6 +79,16 @@ public class DAOVendas implements IDaoVendas {
 			e.printStackTrace();
 		}
 	}
+	
+	public void apagarTudo(){
+		String remove_venda = "DELETE FROM vendas;";
+		try {
+			conectar();
+			comando.executeUpdate(remove_venda);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public List listarVendas() {
 
@@ -107,6 +117,28 @@ public class DAOVendas implements IDaoVendas {
 
 	}
 
+	public int buscarVendaPorNome(String data){
+		ResultSet result = null;
+		int le = -1;
+
+		try {
+			conectar();
+			result = comando.executeQuery("SELECT * FROM vendas WHERE dataVenda = '"
+					+ data + "';");
+			if (result.next()) {
+				le = result.getInt("id");
+				
+			} else {
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return le;
+	}
+	
 	public IVenda buscarVenda(int ID) {
 		ResultSet result = null;
 		IVenda le = new Venda();

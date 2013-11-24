@@ -17,11 +17,13 @@ public class DaoMercadoriaTest {
 
 	public DAOMercadoria daoMercadoria; 
 	public Mercadoria mercadoria;
+	public Mercadoria mercadoria2;
 	
 	@Before
 	public void setUp(){
 		daoMercadoria = new DAOMercadoria();
 		mercadoria = new Mercadoria();
+		mercadoria2 = new Mercadoria();
 	}
 	
 	@Test
@@ -71,7 +73,18 @@ public class DaoMercadoriaTest {
 	}
 	
 	public void testEditarMercadoria(){
-		
+//		mercadoria.setCor("azul");
+//		mercadoria.setNome("teclado");
+//		mercadoria.setPreco(2.50);
+//		mercadoria.setProduto("teclado importado");
+//		mercadoria.setTamanho("grande");
+//		daoMercadoria.criarMercadoria(mercadoria);
+//		
+//		mercadoria2.setCor("azul");
+//		mercadoria2.setNome("teclado");
+//		mercadoria2.setPreco(2.50);
+//		mercadoria2.setProduto("teclado importado");
+//		mercadoria2.setTamanho("grande");
 	}
 	
 
