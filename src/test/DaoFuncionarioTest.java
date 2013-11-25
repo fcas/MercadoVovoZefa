@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import models.funcionario.Caixa;
@@ -167,7 +168,12 @@ public class DaoFuncionarioTest {
 	
 	@Test
 	public void testInstanciarFuncionarios(){
-		daoFuncionario.apagarTodos();
+		try {
+			daoFuncionario.apagarTodos();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Caixa c = new Caixa();
 		Estoquista e = new Estoquista();
 		Gerente g = new Gerente();
@@ -215,7 +221,12 @@ public class DaoFuncionarioTest {
 		assertEquals(v.getRg(), daoFuncionario.buscarRg(v.getRg()));
 		
 
-		daoFuncionario.apagarTodos();
+		try {
+			daoFuncionario.apagarTodos();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 

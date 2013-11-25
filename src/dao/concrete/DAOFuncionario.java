@@ -36,14 +36,14 @@ public class DAOFuncionario implements IDaoFuncionario {
 		}
 	}
 
-	public void apagarTodos(){
+	public void apagarTodos() throws SQLException{
 		String remove_funcionario = "DELETE FROM funcionario";
 		try {	
 			conectar();
 			comando.executeUpdate(remove_funcionario);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	public void criarFuncionario (IFuncionario funcionario) {
@@ -59,12 +59,10 @@ public class DAOFuncionario implements IDaoFuncionario {
 					
 			conectar();
 			comando.executeUpdate(insert_funcionario);
-	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println(insert_funcionario);
-		
 	}
 	
 	public void editarFuncionario(IFuncionario funcionario) {
@@ -116,6 +114,7 @@ public class DAOFuncionario implements IDaoFuncionario {
 				le.setSalario(result.getDouble("salario"));
 				list_funcionario.add(le);
 			}
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -159,7 +158,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 			} else {
 				return null;
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -181,7 +179,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 			if (qtdVenda.next()) {
 				return Integer.parseInt(qtdVenda.getString("vendas"));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -203,7 +200,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 			if (buscarRg.next()) {
 				return buscarRg.getString("rg");
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -227,7 +223,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 			if (buscarRg.next()) {
 				result = buscarRg.getString("rg");
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -253,7 +248,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 			if (salario.next()) {
 				return Double.parseDouble(salario.getString("salario"));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		};

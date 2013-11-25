@@ -15,12 +15,18 @@ public class DAOMercadoria implements IDaoMercadoria {
  
 	private static Connection con;
 	private static Statement comando;
-
+	private String usuario;
+	private String senha;
+	
+	public DAOMercadoria(){
+		usuario = "travis";
+		senha = "";
+	}
 	private void conectar() {
 
 		try {
-			con = ConnectMySql.conexao("jdbc:mysql://localhost/tes", "travis",
-					"", MySQLDAOFactory.MYSQL);
+			con = ConnectMySql.conexao("jdbc:mysql://localhost/tes", usuario,
+					senha, MySQLDAOFactory.MYSQL);
 			comando = con.createStatement();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
@@ -50,7 +56,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 
 			conectar();
 			comando.executeUpdate(insert_mercadoria);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -91,7 +96,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 			} else {
 				return -1;
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -140,7 +144,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 			} else {
 				return null;
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -166,7 +169,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 				le.setProduto(result.getString("produto"));
 				list_mercadorias.add(le);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -186,7 +188,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 			if (buscarId.next()) {
 				return Integer.parseInt(buscarId.getString("id"));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
