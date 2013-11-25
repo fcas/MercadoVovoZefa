@@ -27,10 +27,13 @@ public class MainArquivo {
 	private Facade facade;
 	private Scanner in;
 
-	MainArquivo() throws FileNotFoundException {
+	private BufferedReader menuPrincipal;	
+	
+	public MainArquivo() throws FileNotFoundException {
 		facade = new Facade(0);
 		menuFuncionario = new BufferedReader(new FileReader(caminhoArquivo + "menuFuncionario.txt"));	
-//		menuMercadoria = new BufferedReader(new FileReader(caminhoArquivo + "menuMercadoria.txt"));
+		menuPrincipal = new BufferedReader(new FileReader(caminhoArquivo + "menuPrincipal.txt"));	
+		menuMercadoria = new BufferedReader(new FileReader(caminhoArquivo + "menuMercadoria.txt"));
 //		menuVendas = new BufferedReader(new FileReader(caminhoArquivo + "menuVendas.txt"));
 	}
 
@@ -106,6 +109,7 @@ public class MainArquivo {
 			opcao = Integer.parseInt(menuFuncionario.readLine());
 			switch (opcao) {
 			case 0:
+				voltar = true;
 				MenuPrincipal();
 				break;
 			case 1:
@@ -759,6 +763,7 @@ public class MainArquivo {
 			opcao = Integer.parseInt(menuMercadoria.readLine());
 			switch (opcao) {
 			case 0:
+				voltar = true;
 				MenuPrincipal();
 				break;
 			case 1:
@@ -1105,6 +1110,7 @@ public class MainArquivo {
 			opcao = in.nextInt();
 			switch (opcao) {
 			case 0:
+				voltar = true;
 				MenuPrincipal();
 				break;
 			case 1:
@@ -1365,13 +1371,12 @@ public class MainArquivo {
 	private void MenuPrincipal() throws OpcaoIlegalException, NumberFormatException, IOException {
 		int opcao = -1;
 		boolean sair = false;
-		in = new Scanner(System.in);
-		BufferedReader menuPrincipal = new BufferedReader(new FileReader(caminhoArquivo + "menuPrincipal.txt"));	
+		System.out.println("entrou no menu principal..."); 
 
 		while (!sair) {
+			System.out.println(sair);
 			System.out.println("~~~~~ Menu Principal ~~~~~");
-			System.out
-					.println("Digite o numero correspondente a opcao desejada.");
+			System.out.println("Digite o numero correspondente a opcao desejada.");
 			System.out.println("0- Sair do Programa");
 			System.out.println("1- Menu Funcionarios");
 			System.out.println("2- Menu Mercadorias");
@@ -1380,10 +1385,18 @@ public class MainArquivo {
 			switch (opcao) {
 
 			case 0:
+				
+				System.out.println("Ate a proxima ;)");
+				System.out.println("saiu do programa...");
 				sair = true;
-				System.out.println("At� a pr�xima ;)");
+				menuFuncionario.close();
+				menuPrincipal.close();
+				
+				
+				System.out.println(sair+ " fechando...");
 				break;
 			case 1: // funcionario
+				System.out.println("Escolheu o menu funcionario...");
 				boolean capturouFuncionario = false;
 				do {
 					try {
@@ -1426,9 +1439,41 @@ public class MainArquivo {
 			default:
 				throw new OpcaoIlegalException();
 			}
+			
+			System.out.println(sair + "...");
+			
 		}
-		in.close();
+		
 	}
+	
+	public void executar(){
+		System.out.println("iniciando...");
+		Scanner local = new Scanner(System.in);
+		boolean capturouPrincipal;
+
+//		do { // continua tentando rodar o menu enquanto alguma excecao for
+//				// capturada
+			try {
+//				capturouPrincipal = true;
+				
+				try {
+					MenuPrincipal();
+				} catch (NumberFormatException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (OpcaoIlegalException e) {
+//				capturouPrincipal = true;
+				System.out.println("Opcao Invalida.");
+
+			}
+//		} while (capturouPrincipal);
+
+		local.close();
+
+	}
+
+
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	/*
@@ -1441,17 +1486,18 @@ public class MainArquivo {
 		MainArquivo main = new MainArquivo();
 		boolean capturouPrincipal;
 
-		do { // continua tentando rodar o menu enquanto alguma excecao for
-				// capturada
+//		do { // continua tentando rodar o menu enquanto alguma excecao for
+//				// capturada
 			try {
-				capturouPrincipal = false;
+//				capturouPrincipal = true;
+				
 				main.MenuPrincipal();
 			} catch (OpcaoIlegalException e) {
-				capturouPrincipal = true;
+//				capturouPrincipal = true;
 				System.out.println("Opcao Invalida.");
 
 			}
-		} while (capturouPrincipal);
+//		} while (capturouPrincipal);
 
 		local.close();
 

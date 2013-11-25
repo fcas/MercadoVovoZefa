@@ -3,12 +3,14 @@ package test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
 import exceptions.OpcaoIlegalException;
 import gui.Main;
+import gui.MainArquivo;
 import models.funcionario.IFuncionario;
 
 import org.junit.Before;
@@ -17,12 +19,22 @@ import org.junit.Test;
 public class MainTest {
 
 	public Main gui;
-	public IFuncionario funcionario;
+	public MainArquivo main;
 
 	@Before
 	public void setUp() {
 		gui = new Main();
-		funcionario = gui.getFuncionario();
+		try {
+			main = new MainArquivo();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test(){
+		main.executar();
 	}
 
 	@Test
