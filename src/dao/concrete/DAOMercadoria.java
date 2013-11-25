@@ -12,7 +12,7 @@ import models.mercadoria.Mercadoria;
 import models.mercadoria.IMercadoria;
 
 public class DAOMercadoria implements IDaoMercadoria {
-
+ 
 	private static Connection con;
 	private static Statement comando;
 

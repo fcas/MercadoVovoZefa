@@ -4,7 +4,11 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import models.funcionario.Caixa;
+import models.funcionario.Estoquista;
 import models.funcionario.Funcionario;
+import models.funcionario.Gerente;
+import models.funcionario.Vendedor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -160,5 +164,60 @@ public class DaoFuncionarioTest {
 		assertEquals(1, daoFuncionario.listarFuncionario().size());
 		daoFuncionario.apagarFuncionario("111111111");
 	}
+	
+	@Test
+	public void testInstanciarFuncionarios(){
+		daoFuncionario.apagarTodos();
+		Caixa c = new Caixa();
+		Estoquista e = new Estoquista();
+		Gerente g = new Gerente();
+		Vendedor v = new Vendedor();
+		
+		c.setCargo("caixa");
+		c.setCpf("11111111111");
+		c.setDataNascimento("data");
+		c.setNome("caixa");
+		c.setRg("111111111");
+		c.setSalario(1500);
+		daoFuncionario.criarFuncionario(c);
+		
+		e.setCargo("estoquista");
+		e.setCpf("11111111112");
+		e.setDataNascimento("data");
+		e.setNome("estoquista");
+		e.setRg("111111112");
+		e.setSalario(1500);
+
+		daoFuncionario.criarFuncionario(e);
+		
+		g.setCargo("gerente");
+		g.setCpf("11111111113");
+		g.setDataNascimento("data");
+		g.setNome("gerente");
+		g.setRg("111111113");
+		g.setSalario(1500);
+		daoFuncionario.criarFuncionario(g);
+		 
+		v.setCargo("vendedor");
+		v.setCpf("11111111114");
+		v.setDataNascimento("data");
+		v.setNome("vendedor");
+		v.setRg("111111114");
+		v.setQuantidadeVendas(50);
+		v.incrementarQtdVendas();
+		assertEquals(51, v.getQuantidadeVendas());
+		v.setSalario(1500);
+		daoFuncionario.criarFuncionario(v);
+		
+		assertEquals(c.getRg(), daoFuncionario.buscarRg(c.getRg()));
+		assertEquals(e.getRg(), daoFuncionario.buscarRg(e.getRg()));
+		assertEquals(g.getRg(), daoFuncionario.buscarRg(g.getRg()));
+		assertEquals(v.getRg(), daoFuncionario.buscarRg(v.getRg()));
+		
+
+		daoFuncionario.apagarTodos();
+	}
+	
+
 	
 }

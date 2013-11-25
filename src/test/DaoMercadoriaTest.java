@@ -28,6 +28,8 @@ public class DaoMercadoriaTest {
 	
 	@Test
 	public void testCadastroMercadoria(){
+
+		daoMercadoria.apagarTudo();
 		mercadoria.setCor("azul");
 		mercadoria.setNome("teclado");
 		mercadoria.setPreco(2.50);

@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.*;
+import gui.Main;
 
 import java.util.ArrayList;
 
@@ -13,12 +14,17 @@ import dao.concrete.DAOVendas;
 
 public class MainTest {
 
-	public DAOVendas daoVendas; 
+	public Main main; 
 	public Venda venda;
 	
 	@Before
 	public void setUp(){
-		daoVendas = new DAOVendas();
+		main = new Main();
 		venda = new Venda();
+	}
+	
+	@Test
+	public void testCadastrarFuncionario(){
+		
 	}
 }

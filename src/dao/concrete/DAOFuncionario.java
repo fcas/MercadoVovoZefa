@@ -15,12 +15,19 @@ public class DAOFuncionario implements IDaoFuncionario {
 	
 	private  static Connection con;
 	private static Statement comando; 
+	private String usuario;
+	private String senha;
+	
+	public DAOFuncionario(){
+		usuario = "travis";
+		senha = "";
+	}
 	
 	private void conectar() {
 		
 		try {
-			con = ConnectMySql.conexao("jdbc:mysql://localhost/tes", "travis",
-					"", MySQLDAOFactory.MYSQL);
+			con = ConnectMySql.conexao("jdbc:mysql://localhost/tes", usuario,
+					senha, MySQLDAOFactory.MYSQL);
 			comando = con.createStatement();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
@@ -29,6 +36,15 @@ public class DAOFuncionario implements IDaoFuncionario {
 		}
 	}
 
+	public void apagarTodos(){
+		String remove_funcionario = "DELETE FROM funcionario";
+		try {	
+			conectar();
+			comando.executeUpdate(remove_funcionario);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void criarFuncionario (IFuncionario funcionario) {
 	
@@ -245,4 +261,22 @@ public class DAOFuncionario implements IDaoFuncionario {
 		return -1; 
 	}
 
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	
+	
 }

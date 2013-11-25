@@ -1,5 +1,6 @@
 package facade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import models.funcionario.IFuncionario;
@@ -25,7 +26,12 @@ public class Facade {
 	}
 
 	public void criarFuncionario(IFuncionario funcionario) {
-		iDaoFuncionario.criarFuncionario(funcionario);
+		try {
+			iDaoFuncionario.criarFuncionario(funcionario);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void editarFuncionario(IFuncionario funcionario) {
@@ -53,11 +59,21 @@ public class Facade {
 	}
 
 	public void apagarFuncionario(String rg) {
-		iDaoFuncionario.apagarFuncionario(rg);
+		try {
+			iDaoFuncionario.apagarFuncionario(rg);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void apagarFuncionario(IFuncionario funcionario) {
-		iDaoFuncionario.apagarFuncionario(funcionario.getRg());
+		try {
+			iDaoFuncionario.apagarFuncionario(funcionario.getRg());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public List listarFuncionarios() {
