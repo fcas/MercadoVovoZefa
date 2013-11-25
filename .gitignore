@@ -1,4 +1,7 @@
-$ cat .gitignore
+*.class
+*.jar
+*.war
+*.ear
 
 # Ignorar arquivos específicos
 .classpath
@@ -9,4 +12,4 @@ $ cat .gitignore
 #*.swp
 
 # Ignorar todos os diretórios e arquivos em um diretório.
-# tmp/**/* 
+ target/**/* 
