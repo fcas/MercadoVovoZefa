@@ -21,6 +21,7 @@ public class DAOFuncionario implements IDaoFuncionario {
 	public DAOFuncionario(){
 		usuario = "travis";
 		senha = "";
+		conectar();
 	}
 	
 	private void conectar() {
@@ -39,7 +40,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 	public void apagarTodos() throws SQLException{
 		String remove_funcionario = "DELETE FROM funcionario";
 		try {	
-			conectar();
 			comando.executeUpdate(remove_funcionario);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,8 +56,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 				+ "'" + funcionario.getCargo() + "'," + 
 				+ funcionario.getSalario() + ");";
 		try {
-					
-			conectar();
 			comando.executeUpdate(insert_funcionario);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,7 +74,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 				+ "',salario=" + funcionario.getSalario()
 				+ " WHERE rg=" + funcionario.getRg();
 		try {	
-			conectar();
 			comando.executeUpdate(insert_funcionario);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,7 +85,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 		String remove_funcionario = "DELETE FROM funcionario WHERE rg = "
 				+ rg + 	 ";";
 		try {	
-			conectar();
 			comando.executeUpdate(remove_funcionario);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -96,8 +92,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 	}
 	
 	public List listarFuncionario() {
-
-		conectar();
 		List list_funcionario = new ArrayList();
 		ResultSet result;
 		try {
@@ -130,7 +124,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 				+ "salario=" + funcionario.getSalario()
 				+ " WHERE rg='" + funcionario.getRg() + "'";
 		try {	
-			conectar();
 			comando.executeUpdate(insert_novoSalario);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -144,7 +137,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 		IFuncionario le = new Funcionario();
 		
 		try {
-			conectar();
 			result = comando
 					.executeQuery("SELECT * FROM funcionario WHERE rg = "
 							+ rg + ";");
@@ -171,7 +163,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 		ResultSet qtdVenda = null;
 		
 		try {
-			conectar();
 			qtdVenda = comando
 					.executeQuery("SELECT vendedorRg," 
 							+ "COUNT(" + funcionario.getRg() 
@@ -192,7 +183,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 		ResultSet buscarRg = null;
 		
 		try {
-			conectar();
 			buscarRg = comando
 					.executeQuery("SELECT rg" 
 							+ " FROM funcionario" 
@@ -215,7 +205,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 		String result = null;
 		
 		try {
-			conectar();
 			buscarRg = comando
 					.executeQuery("SELECT rg" 
 							+ " FROM funcionario" 
@@ -242,7 +231,6 @@ public class DAOFuncionario implements IDaoFuncionario {
 		String buscar_salario = "SELECT  salario FROM funcionario"
 				+ " WHERE rg='" + funcionario.getRg() + "'";
 		try {	
-			conectar();
 			salario = comando.executeQuery(buscar_salario);
 			
 			if (salario.next()) {

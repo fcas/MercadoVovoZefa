@@ -21,6 +21,7 @@ public class DAOMercadoria implements IDaoMercadoria {
 	public DAOMercadoria(){
 		usuario = "travis";
 		senha = "";
+		conectar();
 	}
 	private void conectar() {
 
@@ -53,8 +54,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 				+ "'"
 				+ mercadoria.getProduto() + "');";
 		try {
-
-			conectar();
 			comando.executeUpdate(insert_mercadoria);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,7 +70,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 				+ mercadoria.getProduto() + "' WHERE ID='" + mercadoria.getID()
 				+ "';";
 		try {
-			conectar();
 			comando.executeUpdate(update_mercadoria);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,7 +83,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 		int le = -1;
 
 		try {
-			conectar();
 			result = comando
 					.executeQuery("SELECT * FROM mercadoria WHERE nome = '" + nome
 							+ "';");
@@ -108,7 +105,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 		String remove_mercadoria = "DELETE FROM mercadoria WHERE ID = '" + ID
 				+ "';";
 		try {
-			conectar();
 			comando.executeUpdate(remove_mercadoria);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,7 +115,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 		String remove_mercadoria = "DELETE FROM mercadoria"
 				+ ";";
 		try {
-			conectar();
 			comando.executeUpdate(remove_mercadoria);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,7 +126,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 		Mercadoria le = new Mercadoria();
 
 		try {
-			conectar();
 			result = comando
 					.executeQuery("SELECT * FROM mercadoria WHERE ID = '" + ID
 							+ "';");
@@ -153,7 +147,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 
 	public List listarMercadorias() {
 
-		conectar();
 		List list_mercadorias = new ArrayList();
 		ResultSet result;
 
@@ -182,7 +175,6 @@ public class DAOMercadoria implements IDaoMercadoria {
 		ResultSet buscarId = null;
 
 		try {
-			conectar();
 			buscarId = comando.executeQuery("SELECT id" + " FROM mercadoria"
 					+ " WHERE id=" + id);
 			if (buscarId.next()) {

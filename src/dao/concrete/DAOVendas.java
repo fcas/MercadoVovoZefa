@@ -21,6 +21,7 @@ public class DAOVendas implements IDaoVendas {
 	public DAOVendas(){
 		usuario = "travis";
 		senha = "";
+		conectar();
 	}
 	private void conectar() {
 
@@ -50,8 +51,6 @@ public class DAOVendas implements IDaoVendas {
 				+ ""
 				+ venda.getQtdVendas() + ");";
 		try {
-
-			conectar();
 			comando.executeUpdate(insert_venda);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,7 +66,6 @@ public class DAOVendas implements IDaoVendas {
 				+ "',dataVenda='" + venda.getDataVenda() + "',qtdVendas="
 				+ venda.getQtdVendas() + " WHERE id=" + venda.getID() + ";";
 		try {
-			conectar();
 			comando.executeUpdate(insert_venda);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,7 +76,6 @@ public class DAOVendas implements IDaoVendas {
 
 		String remove_venda = "DELETE FROM vendas WHERE id = " + id + ";";
 		try {
-			conectar();
 			comando.executeUpdate(remove_venda);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,7 +85,6 @@ public class DAOVendas implements IDaoVendas {
 	public void apagarTudo(){
 		String remove_venda = "DELETE FROM vendas;";
 		try {
-			conectar();
 			comando.executeUpdate(remove_venda);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,7 +93,6 @@ public class DAOVendas implements IDaoVendas {
 
 	public List listarVendas() {
 
-		conectar();
 		List list_vendas = new ArrayList();
 		ResultSet result;
 
@@ -126,7 +121,6 @@ public class DAOVendas implements IDaoVendas {
 		int le = -1;
 
 		try {
-			conectar();
 			result = comando.executeQuery("SELECT * FROM vendas WHERE dataVenda = '"
 					+ data + "';");
 			if (result.next()) {
@@ -147,7 +141,6 @@ public class DAOVendas implements IDaoVendas {
 		IVenda le = new Venda();
 
 		try {
-			conectar();
 			result = comando.executeQuery("SELECT * FROM vendas WHERE id = "
 					+ ID + ";");
 			if (result.next()) {
@@ -171,7 +164,6 @@ public class DAOVendas implements IDaoVendas {
 		ResultSet buscarId = null;
 
 		try {
-			conectar();
 			buscarId = comando.executeQuery("SELECT id" + " FROM vendas"
 					+ " WHERE id=" + id);
 			if (buscarId.next()) {
