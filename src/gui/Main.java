@@ -19,16 +19,16 @@ public class Main {
 	private Facade facade;
 	private Scanner in;
 	private int opcao;
-	private String RG;
-	private String CPF;
+	private String rg;
+	private String cpf;
 	private String data;
-	private IFuncionario funcionario; 
+	private IFuncionario funcionario;
 	private IMercadoria mercadoria;
 	private IVenda venda;
 	private List listFuncionarios;
 	private List listVendas;
 	private List listMercadorias;
-	
+
 	public Main() {
 		facade = new Facade(0);
 	}
@@ -39,7 +39,7 @@ public class Main {
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	private void CadastrarFuncionario() {
+	public void CadastrarFuncionario() {
 
 		System.out.println("Carregando tela Cadastro Funcionario:");
 
@@ -51,12 +51,12 @@ public class Main {
 		boolean cadastrado = false;
 
 		do {
-			String rg = setRg();
+			rg = setRg();
 			buscaRg = facade.buscarRg(rg);
 
 			if (buscaRg == null || buscaRg.equals("")) {
 				String nome = funcionarioNome();
-				String cpf = setCPF();
+				cpf = setCPF();
 				String dataNascimento = setData();
 				String cargo = funcionarioCargo();
 				double salario = funcionarioSalario();
@@ -68,16 +68,16 @@ public class Main {
 				funcionario.setDataNascimento(dataNascimento);
 				funcionario.setCargo(cargo);
 				funcionario.setSalario(salario);
-				
+
 				try {
 					// tenta adicionar ao banco
 					System.out.println("Aguarde enquanto tentamos cadastrar.");
 					facade.criarFuncionario(funcionario);
-					cadastrado = true;		
+					cadastrado = true;
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
+
 			} else {
 				System.out.println("O Rg já existe no banco de dados");
 			}
@@ -240,7 +240,7 @@ public class Main {
 		String buscaRg = null;
 		boolean achouFuncionario = false;
 		do {
-			String rg = setRg();
+			rg = setRg();
 			buscaRg = facade.buscarRg(rg);
 
 			if (buscaRg != null) {
@@ -292,31 +292,29 @@ public class Main {
 
 	}
 
-	private void RemoverFuncionario() {
+	public boolean RemoverFuncionario() {
 
 		System.out.println("Carregando tela Remover Funcionario:");
 
 		funcionario = new Funcionario();
 		String buscaRg = null;
-		boolean removido = false;
 
-		do {
-			// coleta dados
-			String rg = setRg();
-			buscaRg = facade.buscarRg(rg);
+		// coleta dados
+		rg = setRg();
+		buscaRg = facade.buscarRg(rg);
 
-			if (buscaRg != null) {
+		if (buscaRg != null) {
 
-				// seta o funcionario
-				funcionario.setRg(rg);
+			// seta o funcionario
+			funcionario.setRg(rg);
 
-				// tenta adicionar ao banco
-				System.out
-						.println("Aguarde enquanto removemos o usuario do sistema.");
-				facade.apagarFuncionario(funcionario);
-				removido = true;
-			}
-		} while (!removido);
+			// tenta adicionar ao banco
+			System.out
+					.println("Aguarde enquanto removemos o usuario do sistema.");
+			facade.apagarFuncionario(funcionario);
+			return true;
+		}
+		return false;
 	}
 
 	private double CalcularBonificacao() {
@@ -332,7 +330,7 @@ public class Main {
 
 		do {
 			// coleta dados
-			String rg = setRg();
+			rg = setRg();
 			// seta o funcionario;
 			funcionario.setRg(rg);
 			buscaRg = facade.buscarRg(rg);
@@ -382,8 +380,8 @@ public class Main {
 
 		// coleta dados
 		do {
-			String rg_informado = setRg();
-			String buscaRg = facade.buscarRg(rg_informado);
+			rg = setRg();
+			String buscaRg = facade.buscarRg(rg);
 
 			if (buscaRg == null || buscaRg.equals("")) {
 				System.out
@@ -449,7 +447,7 @@ public class Main {
 	}
 
 	private String setRg() {
-		RG = null;
+		String RG = null;
 		boolean confirma = false;
 		boolean valido = false;
 
@@ -484,7 +482,7 @@ public class Main {
 	}
 
 	private String setCPF() {
-		CPF = null;
+		String CPF = null;
 		boolean confirma = false;
 		boolean valido = false;
 		String resposta;
@@ -518,7 +516,7 @@ public class Main {
 	}
 
 	private String setData() {
-		 data = null;
+		data = null;
 		boolean confirma = false;
 		boolean valido = false;
 
@@ -1343,7 +1341,7 @@ public class Main {
 	 * PARTE RELACIONADA AO MENU PRINCIPAL
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	private void MenuPrincipal() throws OpcaoIlegalException {
+	public void MenuPrincipal() throws OpcaoIlegalException {
 		opcao = -1;
 		boolean sair = false;
 		in = new Scanner(System.in);
@@ -1445,28 +1443,12 @@ public class Main {
 		this.opcao = opcao;
 	}
 
-	public String getRG() {
-		return RG;
-	}
-
-	public void setRG(String rG) {
-		RG = rG;
-	}
-
 	public IFuncionario getFuncionario() {
-		return funcionario;
+		return new Funcionario();
 	}
 
 	public void setFuncionario(IFuncionario funcionario) {
 		this.funcionario = funcionario;
-	}
-
-	public String getCPF() {
-		return CPF;
-	}
-
-	public void setCPF(String cPF) {
-		CPF = cPF;
 	}
 
 	public String getData() {
@@ -1515,6 +1497,22 @@ public class Main {
 
 	public void setListMercadorias(List listMercadorias) {
 		this.listMercadorias = listMercadorias;
+	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 }
