@@ -17,5 +17,9 @@ public interface IDaoMercadoria {
 	public List listarMercadorias();
 
 	public int buscarIdMercadoria(int id);
+	
+	public void apagarTudo();
+	
+	public int buscaIdPorNome(String nome);
 
 }

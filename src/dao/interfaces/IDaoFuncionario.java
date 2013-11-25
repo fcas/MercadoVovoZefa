@@ -7,7 +7,7 @@ import models.funcionario.IFuncionario;
 
 public interface IDaoFuncionario {
 
-	public void criarFuncionario(IFuncionario funcionario) throws SQLException ;
+	public void criarFuncionario(IFuncionario funcionario) throws SQLException;
 
 	public void editarFuncionario(IFuncionario funcionario);
 
@@ -26,5 +26,7 @@ public interface IDaoFuncionario {
 	public boolean checaRg(String rg);
 
 	public double buscarSalario(IFuncionario funcionario);
+
+	public void apagarTodos() throws SQLException;
 
 }

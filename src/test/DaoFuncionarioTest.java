@@ -15,10 +15,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.concrete.DAOFuncionario;
+import dao.interfaces.IDaoFuncionario;
 
 public class DaoFuncionarioTest {
 
-	public DAOFuncionario daoFuncionario; 
+	public IDaoFuncionario daoFuncionario; 
 	public Funcionario funcionario;
 	public Funcionario funcionario2;
 	
@@ -30,7 +31,7 @@ public class DaoFuncionarioTest {
 	}
 	
 	@Test
-	public void testCadastroFuncionario() {
+	public void testCadastroFuncionario() throws SQLException, ClassNotFoundException {
 		funcionario.setNome("Felipe");
 		funcionario.setRg("111111111");
 		funcionario.setCpf("00000000000");
@@ -54,7 +55,7 @@ public class DaoFuncionarioTest {
 
 	
 	@Test
-	public void testBuscarRg(){
+	public void testBuscarRg() throws ClassNotFoundException, SQLException{
 		funcionario.setNome("Felipe");
 		funcionario.setRg("111111111");
 		funcionario.setCpf("00000000000");
@@ -73,7 +74,7 @@ public class DaoFuncionarioTest {
 	}
 
 	@Test
-	public void testEditarFuncionario(){
+	public void testEditarFuncionario() throws SQLException, ClassNotFoundException{
 		funcionario.setNome("Felipe");
 		funcionario.setRg("111111111");
 		funcionario.setCpf("00000000000");
@@ -107,7 +108,7 @@ public class DaoFuncionarioTest {
 	
 	@SuppressWarnings("deprecation")
 	@Test
-	public void testAtualizaSalario(){
+	public void testAtualizaSalario() throws SQLException, ClassNotFoundException{
 		funcionario.setNome("Felipe");
 		funcionario.setRg("111111111");
 		funcionario.setCpf("00000000000");
@@ -134,7 +135,7 @@ public class DaoFuncionarioTest {
 	}
 	
 	@Test
-	public void testBuscarSalario(){
+	public void testBuscarSalario() throws SQLException, ClassNotFoundException{
 		funcionario.setNome("Felipe");
 		funcionario.setRg("111111111");
 		funcionario.setCpf("00000000000");
@@ -152,7 +153,7 @@ public class DaoFuncionarioTest {
 	}
 	
 	@Test
-	public void testeListaFuncionarios(){
+	public void testeListaFuncionarios() throws SQLException, ClassNotFoundException{
 		funcionario.setNome("Felipe");
 		funcionario.setRg("111111111");
 		funcionario.setCpf("00000000000");
@@ -167,7 +168,7 @@ public class DaoFuncionarioTest {
 	}
 	
 	@Test
-	public void testInstanciarFuncionarios(){
+	public void testInstanciarFuncionarios() throws SQLException{
 		try {
 			daoFuncionario.apagarTodos();
 		} catch (SQLException e1) {

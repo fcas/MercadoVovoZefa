@@ -17,5 +17,9 @@ public interface IDaoVendas {
 	public IVenda buscarVenda(int ID);
 
 	public int buscarIdVenda(int id);
+	
+	public void apagarTudo();
+	
+	public int buscarVendaPorNome(String data);
 
 }

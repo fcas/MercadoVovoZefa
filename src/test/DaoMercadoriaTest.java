@@ -11,11 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.concrete.DAOMercadoria;
+import dao.interfaces.IDaoMercadoria;
 
 public class DaoMercadoriaTest {
 
 
-	public DAOMercadoria daoMercadoria; 
+	public IDaoMercadoria daoMercadoria; 
 	public Mercadoria mercadoria;
 	public Mercadoria mercadoria2;
 	

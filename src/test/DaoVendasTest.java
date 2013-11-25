@@ -10,12 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.concrete.DAOVendas;
+import dao.interfaces.IDaoVendas;
 
 
 public class DaoVendasTest {
 
 
-	public DAOVendas daoVendas; 
+	public IDaoVendas daoVendas; 
 	public Venda venda;
 	
 	@Before
