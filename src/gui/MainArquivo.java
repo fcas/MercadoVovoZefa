@@ -1,6 +1,9 @@
 package gui;
 
-import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,38 +17,34 @@ import models.venda.Venda;
 import exceptions.OpcaoIlegalException;
 import facade.Facade;
 
-@SuppressWarnings("rawtypes")
-public class Main {
 
+public class MainArquivo {
+	
+	private  BufferedReader menuFuncionario;
+	private BufferedReader menuMercadoria;
+	private  BufferedReader menuVendas;
+	private final String caminhoArquivo = System.getProperty("user.dir") + System.getProperty("file.separator");
 	private Facade facade;
 	private Scanner in;
-	private int opcao;
-	private String rg;
-	private String cpf;
-	private String data;
-	private IFuncionario funcionario;
-	private IMercadoria mercadoria;
-	private IVenda venda;
-	private List listFuncionarios;
-	private List listVendas;
-	private List listMercadorias;
 
-	public Main() {
-		facade = new Facade(0);	
+	MainArquivo() throws FileNotFoundException {
+		facade = new Facade(0);
+		menuFuncionario = new BufferedReader(new FileReader(caminhoArquivo + "menuFuncionario.txt"));	
+//		menuMercadoria = new BufferedReader(new FileReader(caminhoArquivo + "menuMercadoria.txt"));
+//		menuVendas = new BufferedReader(new FileReader(caminhoArquivo + "menuVendas.txt"));
 	}
-
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	/*
 	 * PARTE RELACIONADA A FUNCIONARIO
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-	public void CadastrarFuncionario() {
+	
+	private void CadastrarFuncionario() throws IOException {
 
 		System.out.println("Carregando tela Cadastro Funcionario:");
 
-		funcionario = new Funcionario();
+		IFuncionario funcionario = new Funcionario();
 		String buscaRg = null;
 
 		// coleta dados
@@ -53,12 +52,12 @@ public class Main {
 		boolean cadastrado = false;
 
 		do {
-			rg = setRg();
+			String rg = setRg();
 			buscaRg = facade.buscarRg(rg);
 
 			if (buscaRg == null || buscaRg.equals("")) {
 				String nome = funcionarioNome();
-				cpf = setCPF();
+				String cpf = setCPF();
 				String dataNascimento = setData();
 				String cargo = funcionarioCargo();
 				double salario = funcionarioSalario();
@@ -71,27 +70,24 @@ public class Main {
 				funcionario.setCargo(cargo);
 				funcionario.setSalario(salario);
 
-				try {
-					// tenta adicionar ao banco
-					System.out.println("Aguarde enquanto tentamos cadastrar.");
-					facade.criarFuncionario(funcionario);
-					cadastrado = true;
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-
+				// tenta adicionar ao banco
+				System.out.println("Aguarde enquanto tentamos cadastrar.");
+				facade.criarFuncionario(funcionario);
+				cadastrado = true;
 			} else {
 				System.out.println("O Rg já existe no banco de dados");
 			}
 		} while (!cadastrado);
 	}
 
-	private void MenuFuncionarios() throws OpcaoIlegalException {
+	
+	private void MenuFuncionarios() throws OpcaoIlegalException, NumberFormatException, IOException {
 
-		opcao = -1;
+		int opcao = -1;
 		boolean voltar = false;
 
-		in = new Scanner(System.in);
+		in = new Scanner(System.in);	
+
 
 		while (!voltar) {
 			System.out.println("~~~~~ Menu Funcionarios ~~~~~");
@@ -105,8 +101,9 @@ public class Main {
 			System.out.println("6 - Buscar Funcionario");
 			System.out.println("7 - Editar funcionario");
 			System.out.println("8 - Reajuste salarial");
+			System.out.println("9 - Sair");
 
-			opcao = in.nextInt();
+			opcao = Integer.parseInt(menuFuncionario.readLine());
 			switch (opcao) {
 			case 0:
 				MenuPrincipal();
@@ -135,6 +132,9 @@ public class Main {
 			case 8:
 				ReajusteSalarial();
 				break;
+			case 9:
+				System.out.println("At� a pr�xima ;)");
+				break;
 			default:
 				throw new OpcaoIlegalException();
 			}
@@ -145,7 +145,13 @@ public class Main {
 
 	private void ReajusteSalarial() {
 
-		listFuncionarios = new ArrayList();
+		double pCaixa = 0.05;
+		double pEstoquista = 0.05;
+		double pGerente = 0.09;
+		double pVendedor = 0.07;
+		double novoSalario;
+
+		List listFuncionarios = new ArrayList();
 		Funcionario aux;
 
 		listFuncionarios = facade.listarFuncionarios();
@@ -163,34 +169,36 @@ public class Main {
 
 	}
 
-	public double QuantificarReajuste(IFuncionario funcionario) {
+	public double QuantificarReajuste(IFuncionario funcionario){
 		double pCaixa = 0.05;
 		double pEstoquista = 0.05;
 		double pGerente = 0.09;
 		double pVendedor = 0.07;
 		double novoSalario = 0;
-
+		
 		if (funcionario.getCargo().equals("Caixa")) {
-			novoSalario = funcionario.getSalario() + funcionario.getSalario()
-					* pCaixa;
-		} else if (funcionario.getCargo().equals("Estoquista")) {
+			novoSalario = funcionario.getSalario() + funcionario.getSalario() * pCaixa;
+		}
+		else if (funcionario.getCargo().equals("Estoquista")) {
 			novoSalario = funcionario.getSalario() + funcionario.getSalario()
 					* pEstoquista;
-		} else if (funcionario.getCargo().equals("Gerente")) {
+		}
+		else if (funcionario.getCargo().equals("Gerente")) {
 			novoSalario = funcionario.getSalario() + funcionario.getSalario()
 					* pGerente;
-		} else {
+		}
+		else {
 			novoSalario = funcionario.getSalario() + funcionario.getSalario()
 					* pVendedor;
 		}
-
+		
 		return novoSalario;
 	}
 
-	private void EditarFuncionario() {
+	private void EditarFuncionario() throws IOException {
 
 		System.out.println("Carregando tela Editar Funcionario:");
-		funcionario = new Funcionario();
+		IFuncionario funcionario = new Funcionario();
 		String buscaRg, nome = null, rg = null, cpf = null, cargo = null, dataNascimento = null;
 		double salario = -1;
 		boolean editado = false;
@@ -200,7 +208,7 @@ public class Main {
 			rg = setRg();
 			buscaRg = facade.buscarRg(rg);
 
-			if (buscaRg != null) {
+			if (buscaRg != null || buscaRg.equals("")) {
 				// coleta dados
 				System.out.println("Informe o novo nome");
 				nome = funcionarioNome();
@@ -235,17 +243,17 @@ public class Main {
 
 	}
 
-	private void BuscarFuncionario() {
+	private void BuscarFuncionario() throws IOException {
 
-		funcionario = new Funcionario();
+		IFuncionario funcionario = new Funcionario();
 		Funcionario aux;
 		String buscaRg = null;
 		boolean achouFuncionario = false;
 		do {
-			rg = setRg();
+			String rg = setRg();
 			buscaRg = facade.buscarRg(rg);
 
-			if (buscaRg != null) {
+			if (buscaRg != null || buscaRg.equals("")) {
 				// seta o funcionario
 				funcionario.setRg(rg);
 
@@ -294,32 +302,34 @@ public class Main {
 
 	}
 
-	public boolean RemoverFuncionario() {
+	private void RemoverFuncionario() throws IOException {
 
 		System.out.println("Carregando tela Remover Funcionario:");
 
-		funcionario = new Funcionario();
+		IFuncionario funcionario = new Funcionario();
 		String buscaRg = null;
+		boolean removido = false;
 
-		// coleta dados
-		rg = setRg();
-		buscaRg = facade.buscarRg(rg);
+		do {
+			// coleta dados
+			String rg = setRg();
+			buscaRg = facade.buscarRg(rg);
 
-		if (buscaRg != null) {
+			if (buscaRg != null || buscaRg.equals("")) {
 
-			// seta o funcionario
-			funcionario.setRg(rg);
+				// seta o funcionario
+				funcionario.setRg(rg);
 
-			// tenta adicionar ao banco
-			System.out
-					.println("Aguarde enquanto removemos o usuario do sistema.");
-			facade.apagarFuncionario(funcionario);
-			return true;
-		}
-		return false;
+				// tenta adicionar ao banco
+				System.out
+						.println("Aguarde enquanto removemos o usuario do sistema.");
+				facade.apagarFuncionario(funcionario);
+				removido = true;
+			}
+		} while (!removido);
 	}
 
-	private double CalcularBonificacao() {
+	private double CalcularBonificacao() throws IOException {
 
 		double salario;
 		double bonificacao = -1;
@@ -328,76 +338,73 @@ public class Main {
 
 		System.out.println("Carregando tela Calcular Bonificacao:");
 
-		funcionario = new Funcionario();
+		IFuncionario funcionario = null;
 
 		do {
-			// coleta dados
-			rg = setRg();
-			// seta o funcionario;
-			funcionario.setRg(rg);
-			buscaRg = facade.buscarRg(rg);
-
-			if (buscaRg != null) {
-
+			do{
+				// coleta dados
+				String rg = setRg();
+				funcionario = facade.buscarFuncionario(rg);
+				if (funcionario == null){
+					System.out.println("RG invalido ou Funcionario nao eh Vendedor.");
+				}
+			}while (funcionario == null || !ehVendedor(funcionario));
+			
 				// tenta adicionar ao banco
 				System.out
 						.println("Aguarde enquanto tentamos calcular a bonificacao.");
-				System.out.println("Quantidade de vendas:"
-						+ facade.quantidadeVendas(funcionario));
-				salario = facade.buscarSalario(funcionario);
+				salario = funcionario.getSalario();
 				bonificacao = salario + salario
 						* (0.01 * facade.quantidadeVendas(funcionario));
-			} else {
-				System.out.println("RG invalido");
-			}
+			
 		} while (!calculou);
 
 		return bonificacao;
 
 	}
-
-	@SuppressWarnings("unused")
-	private double CalcularReajuste(String rg) {
+	
+	public boolean ehVendedor(IFuncionario funcionario){
+		if (funcionario == null){
+			return false;
+		}
+		if (funcionario.getCargo().equals("Vendedor")){
+			return true;
+		}
+		return false;
+	}
+	
+	private double CalcularReajusteRg(String rg) {
 
 		double novoSalario = 0;
 
-		funcionario = new Funcionario();
+		IFuncionario funcionario = new Funcionario();
 
 		funcionario = facade.buscarFuncionario(rg);
-		if (funcionario != null) {
+		if (funcionario != null){
 			novoSalario = QuantificarReajuste(funcionario);
 		}
 		return novoSalario;
 
 	}
 
-	private void AtualizarSalario() {
+	
+	private void AtualizarSalario() throws IOException {
 
 		System.out.println("Carregando tela Atualizar Salario:");
 
-		funcionario = new Funcionario();
+		IFuncionario funcionario = new Funcionario();
 		double salarioAtual = -1;
 		boolean aumento = false;
-		boolean rgValido = false;
 
 		// coleta dados
-		do {
-			rg = setRg();
-			String buscaRg = facade.buscarRg(rg);
-
-			if (buscaRg == null || buscaRg.equals("")) {
-				System.out
-						.println("RG invalido. Digite o RG de um funcionario ja cadastrado.");
-			} else {
-				rgValido = true;
-			}
-		} while (!rgValido);
+		String rg = setRg();
+		funcionario.setRg(rg);
 
 		salarioAtual = facade.buscarSalario(funcionario);
 
 		do {
 			double novoSalario = funcionarioSalario();
-			if (novoSalario > salarioAtual) {
+			if (salarioAtualizavel(salarioAtual, novoSalario)) {
 				funcionario.setSalario(novoSalario);
 				System.out
 						.println("Aguarde enquanto tentamos atualizar o salario.");
@@ -410,13 +417,23 @@ public class Main {
 
 	}
 
-	private String funcionarioNome() {
+	public boolean salarioAtualizavel(double salarioAtual, double novoSalario) throws IOException {
+		
+		if (salarioAtual <= novoSalario){
+			return true;
+		}
+		return false;
+
+	}
+	
+	private String funcionarioNome() throws IOException {
 
 		String Nome = null;
 		boolean confirma = false;
 		boolean valido = false;
 
 		in = new Scanner(System.in);
+		
 
 		String resposta;
 
@@ -424,13 +441,13 @@ public class Main {
 			valido = false;
 			while (!valido) {
 				System.out.println("Digite nome do funcionario:");
-				Nome = in.next();
+				Nome = menuFuncionario.readLine();
 				if (!(Nome.equals(""))) {
 					valido = true;
 				}
 
 				System.out.println("Nome = " + Nome + "\nTem certeza? (s/n)");
-				resposta = in.next();
+				resposta = menuFuncionario.readLine();
 
 				if (resposta.equalsIgnoreCase("s")) {
 					confirma = true;
@@ -448,7 +465,7 @@ public class Main {
 		return Nome;
 	}
 
-	private String setRg() {
+	private String setRg() throws IOException {
 		String RG = null;
 		boolean confirma = false;
 		boolean valido = false;
@@ -456,20 +473,21 @@ public class Main {
 		String resposta;
 
 		in = new Scanner(System.in);
-
+		
+		
 		while (!confirma) { // enquanto o usuario nao confirmar
 			valido = false;
 			while (!valido) { // enquanto o RG nao for valido
 				System.out
 						.println("Digite RG do funcionario (nove digitos sem ponto):");
-				RG = in.next();
+				RG = menuFuncionario.readLine();
 				if (RG.length() == 9) {
 					valido = true;
 				}
 			}
 
 			System.out.println("RG = " + RG + "\nTem certeza? (s/n)");
-			resposta = in.next();
+			resposta = menuFuncionario.readLine();
 			if (resposta.equals("s") || resposta.equals("S")) {
 				confirma = true;
 				return RG;
@@ -483,7 +501,7 @@ public class Main {
 		return RG;
 	}
 
-	private String setCPF() {
+	private String setCPF() throws IOException {
 		String CPF = null;
 		boolean confirma = false;
 		boolean valido = false;
@@ -496,14 +514,14 @@ public class Main {
 			while (!valido) { // enquanto o CPF nao for valido
 				System.out
 						.println("Digite CPF do funcionario (onze digitos sem ponto e sem hifen):");
-				CPF = in.next();
+				CPF = menuFuncionario.readLine();
 				if (CPF.length() == 11) {
 					valido = true;
 				}
 			}
 
 			System.out.println("CPF = " + CPF + "\nTem certeza? (s/n)");
-			resposta = in.next();
+			resposta = menuFuncionario.readLine();
 			if (resposta.equals("s") || resposta.equals("S")) {
 				confirma = true;
 				return CPF;
@@ -517,8 +535,8 @@ public class Main {
 		return CPF;
 	}
 
-	private String setData() {
-		data = null;
+	private String setData() throws IOException {
+		String dataString = null;
 		boolean confirma = false;
 		boolean valido = false;
 
@@ -530,9 +548,9 @@ public class Main {
 			valido = false;
 			while (!valido) { // enquanto o CPF nao for valido
 				System.out.println("Informe a data (DD/MM/AAAA)");
-				data = in.next();
-				if (data.length() == 10) { // se tem o tamanho certo
-					int[] dataInt = quebraData(data); // quebra a linha
+				dataString = menuFuncionario.readLine();
+				if (dataString.length() == 10) { // se tem o tamanho certo
+					int[] dataInt = quebraData(dataString); // quebra a linha
 					if ((dataInt.length == 3) && (checaData(dataInt))) { // se
 																			// esta
 																			// no
@@ -548,12 +566,12 @@ public class Main {
 				}
 			}
 
-			System.out.println("Data de Nascimento = " + data
+			System.out.println("Data de Nascimento = " + dataString
 					+ "\nTem certeza? (s/n)");
-			resposta = in.next();
+			resposta = menuFuncionario.readLine();
 			if (resposta.equals("s") || resposta.equals("S")) {
 				confirma = true;
-				return data;
+				return dataString;
 			} else {
 				confirma = false;
 			}
@@ -561,9 +579,10 @@ public class Main {
 
 		in.close();
 
-		return data;
+		return dataString;
 	}
-
+	
+	
 	private int[] quebraData(String dataString) {
 		String[] aux = dataString.split("/");
 		int[] dataInt = new int[3];
@@ -573,13 +592,13 @@ public class Main {
 		}
 		return dataInt;
 	}
-
-	private boolean checaData(int[] dataInt) {
+	
+	public boolean checaData(int[] dataInt) {
 		int dia = dataInt[0];
 		int mes = dataInt[1];
 		int ano = dataInt[2];
 		boolean bissexto = false;
-		if (ano >= 1896 && ano <= 2020) { // se for um ano v�lido
+		if (ano >= 1896 && ano <= 2020) { // se for um ano valido
 			if (((ano % 4 == 0) && (ano % 100 != 0)) || (ano % 400 == 0)) { // se
 																			// for
 																			// bissexto
@@ -624,7 +643,7 @@ public class Main {
 		return false;
 	}
 
-	private String funcionarioCargo() {
+	private String funcionarioCargo() throws NumberFormatException, IOException {
 		String cargo = null;
 		int opcao = 0;
 		boolean confirma = false;
@@ -641,7 +660,7 @@ public class Main {
 				System.out.println("2-Estoquista");
 				System.out.println("3-Gerente");
 				System.out.println("4-Vendedor");
-				opcao = in.nextInt();
+				opcao = Integer.parseInt(menuFuncionario.readLine());
 				switch (opcao) {
 				case 1:
 					cargo = "Caixa";
@@ -668,7 +687,7 @@ public class Main {
 			}
 
 			System.out.println("Cargo = " + cargo + "\nTem certeza? (s/n)");
-			resposta = in.next();
+			resposta = menuFuncionario.readLine();
 			if (resposta.equals("s") || resposta.equals("S")) {
 				confirma = true;
 				return cargo;
@@ -682,7 +701,7 @@ public class Main {
 		return cargo;
 	}
 
-	private double funcionarioSalario() {
+	private double funcionarioSalario() throws NumberFormatException, IOException {
 
 		double salario = -1;
 		boolean confirma = false;
@@ -695,14 +714,14 @@ public class Main {
 			valido = false;
 			while (!valido) { // enquanto o Salario nao for valido
 				System.out.println("Digite salario do funcionario:");
-				salario = in.nextDouble();
+				salario = Double.parseDouble(menuFuncionario.readLine());
 				if (salario > 0) {
 					valido = true;
 				}
 			}
 
 			System.out.println("Salario = " + salario + "\nTem certeza? (s/n)");
-			resposta = in.next();
+			resposta = menuFuncionario.readLine();
 			if (resposta.equals("s") || resposta.equals("S")) {
 				confirma = true;
 				return salario;
@@ -721,9 +740,9 @@ public class Main {
 	 * PARTE RELACIONADA A MERCADORIA
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	private void MenuMercadoria() throws OpcaoIlegalException {
+	private void MenuMercadoria() throws OpcaoIlegalException, NumberFormatException, IOException {
 
-		opcao = -1;
+		int opcao = -1;
 		boolean voltar = false;
 
 		in = new Scanner(System.in);
@@ -737,7 +756,7 @@ public class Main {
 			System.out.println("3 - Buscar mercadoria");
 			System.out.println("4 - Listar mercadorias");
 
-			opcao = in.nextInt();
+			opcao = Integer.parseInt(menuMercadoria.readLine());
 			switch (opcao) {
 			case 0:
 				MenuPrincipal();
@@ -763,7 +782,7 @@ public class Main {
 
 	private void ListarMercadorias() {
 
-		listMercadorias = new ArrayList();
+		List listMercadorias = new ArrayList();
 		Mercadoria aux;
 
 		listMercadorias = facade.listarMercadorias();
@@ -787,7 +806,7 @@ public class Main {
 
 	}
 
-	private void BuscarMercadoria() {
+	private void BuscarMercadoria() throws NumberFormatException, IOException {
 
 		Mercadoria aux;
 		in = new Scanner(System.in);
@@ -796,7 +815,7 @@ public class Main {
 
 		do {
 			System.out.println("Informe o id da mercadoria");
-			int id = in.nextInt();
+			int id = Integer.parseInt(menuMercadoria.readLine());
 			buscarId = facade.buscarIdMercadoria(id);
 
 			if (buscarId == id) {
@@ -847,7 +866,7 @@ public class Main {
 
 		System.out.println("Carregando tela Cadastro Mercadoria:");
 
-		mercadoria = new Mercadoria();
+		IMercadoria mercadoria = new Mercadoria();
 
 		// coleta dados
 		String nome = mercadoriaNome();
@@ -1066,9 +1085,9 @@ public class Main {
 	 * PARTE RELACIONADA A VENDAS
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	private void MenuVendas() throws OpcaoIlegalException {
+	private void MenuVendas() throws OpcaoIlegalException, NumberFormatException, IOException {
 
-		opcao = -1;
+		int opcao = -1;
 		boolean voltar = false;
 
 		in = new Scanner(System.in);
@@ -1113,7 +1132,7 @@ public class Main {
 
 	private void ListarVendas() {
 
-		listVendas = new ArrayList();
+		List listVendas = new ArrayList();
 		Venda aux;
 
 		listVendas = facade.listarVendas();
@@ -1193,10 +1212,10 @@ public class Main {
 
 	}
 
-	private void EditarVenda() {
+	private void EditarVenda() throws IOException {
 
 		System.out.println("Carregando tela Editar Venda:");
-		venda = new Venda();
+		IVenda venda = new Venda();
 		int buscarId, id, qtdVendas = -1;
 		String dataVenda = null, vendedorRg = null;
 		double subtotal = -1;
@@ -1238,11 +1257,11 @@ public class Main {
 
 	}
 
-	private void CadastrarVenda() {
+	private void CadastrarVenda() throws IOException {
 
 		System.out.println("Carregando tela Cadastro Venda:");
 
-		venda = new Venda();
+		IVenda venda = new Venda();
 
 		// coleta dados
 		double subtotal = mercadoriaSubtotal();
@@ -1315,7 +1334,7 @@ public class Main {
 			while (!valido) {
 				System.out.println("Digite o subtotal:");
 				subtotal = in.nextDouble();
-				if (subtotal > 0.0) {
+				if (subtotal > 0) {
 					valido = true;
 				}
 
@@ -1343,10 +1362,11 @@ public class Main {
 	 * PARTE RELACIONADA AO MENU PRINCIPAL
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	public void MenuPrincipal() throws OpcaoIlegalException {
-		opcao = -1;
+	private void MenuPrincipal() throws OpcaoIlegalException, NumberFormatException, IOException {
+		int opcao = -1;
 		boolean sair = false;
 		in = new Scanner(System.in);
+		BufferedReader menuPrincipal = new BufferedReader(new FileReader(caminhoArquivo + "menuPrincipal.txt"));	
 
 		while (!sair) {
 			System.out.println("~~~~~ Menu Principal ~~~~~");
@@ -1356,7 +1376,7 @@ public class Main {
 			System.out.println("1- Menu Funcionarios");
 			System.out.println("2- Menu Mercadorias");
 			System.out.println("3- Menu Vendas");
-			opcao = in.nextInt();
+			opcao = Integer.parseInt(menuPrincipal.readLine());
 			switch (opcao) {
 
 			case 0:
@@ -1415,10 +1435,10 @@ public class Main {
 	 * METODO MAIN
 	 */
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		System.out.println("iniciando...");
 		Scanner local = new Scanner(System.in);
-		Main main = new Main();
+		MainArquivo main = new MainArquivo();
 		boolean capturouPrincipal;
 
 		do { // continua tentando rodar o menu enquanto alguma excecao for
@@ -1437,84 +1457,5 @@ public class Main {
 
 	}
 
-	public int getOpcao() {
-		return opcao;
-	}
-
-	public void setOpcao(int opcao) {
-		this.opcao = opcao;
-	}
-
-	public IFuncionario getFuncionario() {
-		return new Funcionario();
-	}
-
-	public void setFuncionario(IFuncionario funcionario) {
-		this.funcionario = funcionario;
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-
-	public IMercadoria getMercadoria() {
-		return mercadoria;
-	}
-
-	public void setMercadoria(IMercadoria mercadoria) {
-		this.mercadoria = mercadoria;
-	}
-
-	public IVenda getVenda() {
-		return venda;
-	}
-
-	public void setVenda(IVenda venda) {
-		this.venda = venda;
-	}
-
-	public List getListFuncionarios() {
-		return listFuncionarios;
-	}
-
-	public void setListFuncionarios(List listFuncionarios) {
-		this.listFuncionarios = listFuncionarios;
-	}
-
-	public List getListVendas() {
-		return listVendas;
-	}
-
-	public void setListVendas(List listVendas) {
-		this.listVendas = listVendas;
-	}
-
-	public List getListMercadorias() {
-		return listMercadorias;
-	}
-
-	public void setListMercadorias(List listMercadorias) {
-		this.listMercadorias = listMercadorias;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
 
 }
