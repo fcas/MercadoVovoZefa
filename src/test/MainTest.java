@@ -19,24 +19,24 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MainTest {
+//
+//	public Main gui;
+//	public MainArquivo main;
 
-	public Main gui;
-	public MainArquivo main;
-
-	@Before
-	public void setUp() {
-		gui = new Main();
-		try {
-			main = new MainArquivo();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Before
+//	public void setUp() {
+//		gui = new Main();
+//		try {
+//			main = new MainArquivo();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Test
 	public void test(){
-		main.executar();
+//		main.executar();
 	}
 
 	@Test
