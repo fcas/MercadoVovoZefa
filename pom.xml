@@ -43,6 +43,7 @@
 						<format>xml</format>
 						<maxmem>256m</maxmem>
 						<aggregate>true</aggregate>
+ 					    <instrumentation>
                                                   <excludes>
 					            <exclude>**/*Test.class</exclude>
 						    <exclude>**/*Test.java</exclude>
@@ -52,7 +53,8 @@
 						    <exclude>**/I*.java</exclude>
 						    <exclude>**/*Exception.class</exclude>
 						    <exclude>**/*Exception.java</exclude>
-					          </excludes>			 
+					          </excludes>	
+					     </instrumentation>		 
 					</configuration>
 				</plugin>
 				<plugin>
@@ -68,7 +70,8 @@
 					<artifactId>coveralls-maven-plugin</artifactId>
 					<version>2.0.1</version>
 					<configuration>
-						<repoToken>QloICX84FmKVcMrTxvRjsJe9SDXMLgPTy</repoToken>
+						<repoToken>QloICX84FmKVcMrTxvRjsJe9SDXMLgPTy</repoToken> 
+						<instrumentation>
  						    <excludes>
 					            <exclude>**/*Test.class</exclude>
 						    <exclude>**/*Test.java</exclude>
@@ -79,6 +82,7 @@
 						    <exclude>**/*Exception.class</exclude>
 						    <exclude>**/*Exception.java</exclude>
 					          </excludes>
+					       </instrumentation>
 					</configuration>
 				</plugin>
 			</plugins>
