@@ -42,7 +42,17 @@
 						<argLine>-XX:-UseSplitVerifier</argLine>
 						<format>xml</format>
 						<maxmem>256m</maxmem>
-						<aggregate>true</aggregate>			 
+						<aggregate>true</aggregate>
+                                                  <excludes>
+					            <exclude>**/*Test.class</exclude>
+						    <exclude>**/*Test.java</exclude>
+						    <exclude>**/Main*.class</exclude>
+						    <exclude>**/Main*.java</exclude>
+						    <exclude>**/I*.class</exclude>
+						    <exclude>**/I*.java</exclude>
+						    <exclude>**/*Exception.class</exclude>
+						    <exclude>**/*Exception.java</exclude>
+					          </excludes>			 
 					</configuration>
 				</plugin>
 				<plugin>
@@ -59,6 +69,16 @@
 					<version>2.0.1</version>
 					<configuration>
 						<repoToken>QloICX84FmKVcMrTxvRjsJe9SDXMLgPTy</repoToken>
+ 						    <excludes>
+					            <exclude>**/*Test.class</exclude>
+						    <exclude>**/*Test.java</exclude>
+						    <exclude>**/Main*.class</exclude>
+						    <exclude>**/Main*.java</exclude>
+						    <exclude>**/I*.class</exclude>
+						    <exclude>**/I*.java</exclude>
+						    <exclude>**/*Exception.class</exclude>
+						    <exclude>**/*Exception.java</exclude>
+					          </excludes>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -73,9 +93,15 @@
 					<target>1.7</target>
 					<testSource>1.7</testSource>
 					<testTarget>1.7</testTarget>
-<excludes>
+						  <excludes>
 					            <exclude>**/*Test.class</exclude>
 						    <exclude>**/*Test.java</exclude>
+						    <exclude>**/Main*.class</exclude>
+						    <exclude>**/Main*.java</exclude>
+						    <exclude>**/I*.class</exclude>
+						    <exclude>**/I*.java</exclude>
+						    <exclude>**/*Exception.class</exclude>
+						    <exclude>**/*Exception.java</exclude>
 					          </excludes>
 				</configuration>
 			</plugin>
